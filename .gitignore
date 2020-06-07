@@ -1,0 +1,17 @@
+# normal ignores
+.*
+*~
+*.[ao]
+*.lo
+*.so
+tags
+cscope.out
+!.gitignore
+!.travis.yml
+
+#Python stuff
+*.pyc
+
+#Mac Stuff
+.DS_Store
+
