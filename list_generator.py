@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import argparse
 import operator
 import re
@@ -8,7 +10,7 @@ from lxml import etree
 
 pageRegex = re.compile("([0-9]+)-([0-9]+)")
 startYear = 1995
-endYear = 2020
+endYear = 2021
 xmlFolder = "./xml"
 outputFile = "out.txt"
 
@@ -60,14 +62,14 @@ def processElement(authorCount, authorData, paper):
                  (pageLength >=3 and yearNum == 1999) or
                  (pageLength >=10 and yearNum >= 2015))
     if(not criteria):
-        print "found paper not meeting criteria"
-        print "pageLength:  ", pageLength
-        print "year: ", year
-        print "attribute: ", paper.attrib["key"]
+        print("found paper not meeting criteria")
+        print("pageLength:  ", pageLength)
+        print("year: ", year)
+        print("attribute: ", paper.attrib["key"])
         output = "authors: "
         for author in authors:
             output += author.text + ", "
-        print output
+        print(output)
         return False
 
     for author in authors:
@@ -93,7 +95,7 @@ def eventDrivenParsing():
             #since no longer needed, free up memory allocated to element
             element.clear()
 
-    print "total count = ", count
+    print("total count = ", count)
     sortedResult = sorted(authorCount.items(), key=operator.itemgetter(1),
                            reverse=True)
     printOutInfo(authorData, sortedResult, outputFile)

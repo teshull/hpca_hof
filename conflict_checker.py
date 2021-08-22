@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import argparse
 import re
 import codecs
@@ -11,6 +13,7 @@ writeToFile = True
 conflictFilename = "script_conflicts.txt"
 inputFilename = "out.txt"
 thresholdCount = 8
+NO_CONFLICT = -1
 
 
 def readFile(filename="out.txt"):
@@ -38,10 +41,10 @@ def readFile(filename="out.txt"):
                 names.append(name)
                 numFound += 1
             else:
-                print "failed on line: ", line
+                print("failed on line: ", line)
                 sys.exit(1)
-    print "Total number found = ", numFound
-    print "Total number missing = ", (totalNum - numFound)
+    print("Total number found = ", numFound)
+    print("Total number missing = ", (totalNum - numFound))
     return names
 
 #merging two conflict group IDs together
@@ -54,7 +57,7 @@ def changeConflictID(conflicts, oldVal, newVal):
 def assignConflictGroup(conflicts, name, conflictNames):
     index = name.index
     value = index
-    if conflicts[index] == 0:
+    if conflicts[index] == NO_CONFLICT:
         conflicts[index] = value
     else:
         value = conflicts[index]
@@ -62,7 +65,7 @@ def assignConflictGroup(conflicts, name, conflictNames):
     for cName in conflictNames:
         cIndex = cName.index
         cValue = conflicts[cIndex]
-        if cValue == 0 :
+        if cValue == NO_CONFLICT:
             conflicts[cIndex] = value
         elif cValue != value:
             changeConflictID(conflicts, cValue, value)
@@ -73,7 +76,7 @@ def nameChecks(names):
     conflicts = {}
     #stating all conflicts are unset
     for i in range(len(names)):
-        conflicts[i] = 0
+        conflicts[i] = NO_CONFLICT
 
     for i in range(len(names) - 1):
         name = names[i]
@@ -93,7 +96,7 @@ def writeOutput(line):
         text_file = codecs.open(conflictFilename, mode='a+', encoding='utf-8')
         text_file.write(line + "\n")
     else:
-        print line
+        print(line)
 
 
 def printIssues(conflicts, names):
